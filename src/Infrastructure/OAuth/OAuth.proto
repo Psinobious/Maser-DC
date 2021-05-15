@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "./OAuth";
+package OAuth;
+
+service OAuth{
+    rpc RequestAccessTokens(AuthorizationGrant) returns(AccessTokens) {}
+    rpc RefreshAccessTokens(AccessTokenRequest) returns(AccessTokens){}
+    rpc InvalidateTokens(LogoutToken) returns(Response){}
+    rpc OAuthTest(TestMessage) returns(Response){}
+    rpc PersistUser(EmailCode) returns(Response) {}
+    rpc CreateTempUser(UserForm) returns(Response) {}
+}
+message TestMessage {
+    string Message = 1;
+}
+message LogoutToken {
+    string AccessToken = 1;
+}
+message Response {
+    string Code = 1;
+}
+message UserForm {
+    string ClientID = 1;
+    string Email = 2;
+    string Password = 3;
+    string FirstName = 4;
+    string LastName = 5;
+    string Alias = 6;
+}
+message EmailCode {
+    string URI_Code = 1;
+}
+message AccessTokens {
+    string accessToken = 1;
+    string tokenType = 2;
+    int64 Expires_In =  3;
+    string refreshToken = 4;
+    string scope = 5;
+}
+message AccessTokenRequest {
+    string grant_Type = 1;
+    string refreshToken = 2;
+    string scope = 3;
+    string clientID = 4;
+}
+message AuthorizationGrant {
+    string grant_Type = 1;
+    string clientID = 2;
+    string scope = 4;
+}
